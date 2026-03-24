@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Seder — 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F0E3;
+    --parchment: #EDE3CC;
+    --deep-wine: #6B1E2E;
+    --wine: #8B2535;
+    --gold: #C9963A;
+    --gold-light: #E8B95A;
+    --sage: #5C7A5C;
+    --warm-black: #1A1208;
+    --text: #2C1A0E;
+    --muted: #7A6650;
+    --divider: rgba(107, 30, 46, 0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text);
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--wine), var(--gold));
+    width: 0%;
+    z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  /* ── COVER ── */
+  #cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 30px;
+    background: var(--deep-wine);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  #cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(201,150,58,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(201,150,58,0.12) 0%, transparent 60%);
+  }
+
+  .cover-ornament {
+    font-size: 48px;
+    opacity: 0.6;
+    margin-bottom: 24px;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .cover-year {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.8;
+    margin-bottom: 20px;
+    animation: fadeUp 1.2s ease 0.1s both;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 12vw, 88px);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.05;
+    margin-bottom: 12px;
+    animation: fadeUp 1.2s ease 0.2s both;
+  }
+
+  .cover-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(18px, 4vw, 26px);
+    color: var(--gold-light);
+    margin-bottom: 40px;
+    animation: fadeUp 1.2s ease 0.3s both;
+  }
+
+  .cover-tagline {
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    color: rgba(247, 240, 227, 0.55);
+    max-width: 340px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+    animation: fadeUp 1.2s ease 0.4s both;
+  }
+
+  .cover-dedication {
+    border-top: 1px solid rgba(201,150,58,0.3);
+    padding-top: 32px;
+    padding-bottom: 80px;
+    animation: fadeUp 1.2s ease 0.5s both;
+  }
+
+  .cover-dedication p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201,150,58,0.7);
+    margin-bottom: 10px;
+  }
+
+  .cover-dedication h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    animation: fadeUp 1.2s ease 0.9s both;
+    cursor: pointer;
+  }
+
+  .scroll-cue span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(247,240,227,0.4);
+  }
+
+  .scroll-cue .arrow {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, rgba(201,150,58,0.6), transparent);
+    animation: arrowPulse 2s ease-in-out infinite;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247, 240, 227, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--divider);
+    padding: 0 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #nav::-webkit-scrollbar { display: none; }
+
+  .nav-inner {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    min-width: max-content;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .nav-item {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 14px;
+    cursor: pointer;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+    display: block;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: var(--wine);
+    border-bottom-color: var(--wine);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 72px 28px;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 42px);
+    font-weight: 700;
+    color: var(--deep-wine);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .section-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .section p {
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+
+  .section p:last-child { margin-bottom: 0; }
+
+  /* ── HEBREW / BLESSING BLOCK ── */
+  .blessing {
+    background: rgba(107, 30, 46, 0.05);
+    border-left: 3px solid var(--wine);
+    border-radius: 0 8px 8px 0;
+    padding: 22px 24px;
+    margin: 28px 0;
+  }
+
+  .blessing .hebrew {
+    font-size: 22px;
+    line-height: 1.9;
+    color: var(--deep-wine);
+    direction: rtl;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 10px;
+    text-align: right;
+  }
+
+  .blessing .transliteration {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .blessing .translation {
+    font-size: 14px;
+    color: var(--text);
+    opacity: 0.8;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--parchment);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 28px 0;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 16px;
+    border: 1px solid rgba(201,150,58,0.2);
+  }
+
+  .callout.action {
+    background: var(--deep-wine);
+    color: var(--cream);
+    font-style: normal;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+
+  .callout.action .action-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* ── READER PARTS ── */
+  .reader-block {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin: 12px 0;
+    border: 1px solid rgba(201,150,58,0.15);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reader-block:hover {
+    border-color: var(--wine);
+    box-shadow: 0 2px 12px rgba(107,30,46,0.08);
+  }
+
+  .reader-block.highlighted {
+    background: rgba(107,30,46,0.04);
+    border-color: var(--wine);
+  }
+
+  .reader-num {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--wine);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 2px 10px;
+    border-radius: 20px;
+  }
+
+  .reader-block p {
+    margin-bottom: 0 !important;
+    font-size: 15px;
+  }
+
+  /* ── PLAGUES ── */
+  .plague-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 24px 0;
+  }
+
+  .plague-item {
+    background: white;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-direction: column;
+  }
+
+  .plague-item:hover {
+    border-color: var(--wine);
+    background: rgba(107,30,46,0.03);
+  }
+
+  .plague-item.done {
+    opacity: 0.4;
+    background: var(--parchment);
+  }
+
+  .plague-emoji { font-size: 20px; min-width: 28px; text-align: center; }
+  .plague-header { display: flex; align-items: center; gap: 10px; }
+  .plague-hebrew { font-size: 15px; color: var(--deep-wine); direction: rtl; text-align: right; width: 100%; font-family: 'Playfair Display', serif; margin-top: 4px; opacity: 0.75; }
+
+  /* ── FOUR QUESTIONS ── */
+  .question-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin: 14px 0;
+    border: 1px solid rgba(201,150,58,0.15);
+    border-left: 4px solid var(--gold);
+  }
+
+  .question-card .q-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .question-card .q-text {
+    font-size: 15px;
+    margin-bottom: 0 !important;
+  }
+
+  .question-card .q-hebrew {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── SARAH & PAIGE SECTION ── */
+  #sendoff {
+    background: var(--deep-wine);
+    max-width: 100%;
+    padding: 72px 28px;
+  }
+
+  #sendoff .inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  #sendoff .section-label { color: var(--gold-light); opacity: 0.7; }
+  #sendoff .section-title { color: var(--cream); }
+  #sendoff .section-subtitle { color: var(--gold-light); }
+  #sendoff p { color: rgba(247,240,227,0.85); }
+
+  .names-banner {
+    display: flex;
+    gap: 16px;
+    margin: 32px 0;
+    flex-wrap: wrap;
+  }
+
+  .name-card {
+    flex: 1;
+    min-width: 140px;
+    background: rgba(201,150,58,0.12);
+    border: 1px solid rgba(201,150,58,0.3);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+
+  .name-card .grad-cap { font-size: 32px; margin-bottom: 10px; display: block; }
+  .name-card .name { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: var(--gold-light); }
+
+  .sendoff-question {
+    background: rgba(247,240,227,0.07);
+    border: 1px solid rgba(201,150,58,0.25);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin: 28px 0;
+  }
+
+  .sendoff-question .sq-prompt {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    opacity: 0.7;
+    margin-bottom: 14px;
+  }
+
+  .sendoff-question .sq-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--cream);
+    line-height: 1.4;
+    margin-bottom: 0 !important;
+  }
+
+  /* ── DAYENU ── */
+  .dayenu-lines {
+    margin: 20px 0;
+  }
+
+  .dayenu-line {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--divider);
+    font-size: 15px;
+  }
+
+  .dayenu-line:last-child { border-bottom: none; }
+
+  .dayenu-chorus {
+    background: var(--deep-wine);
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    text-align: center;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+  }
+
+  /* ── SEDER PLATE ── */
+  .plate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .plate-item {
+    background: white;
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .plate-item .pi-emoji { font-size: 24px; display: block; margin-bottom: 6px; }
+  .plate-item .pi-name {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--deep-wine);
+    margin-bottom: 4px;
+  }
+  .plate-item .pi-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── CUPS ── */
+  .cup-tracker {
+    display: flex;
+    gap: 12px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .cup {
+    flex: 1;
+    min-width: 120px;
+    background: white;
+    border: 2px solid var(--divider);
+    border-radius: 10px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .cup .cup-num { font-size: 28px; margin-bottom: 4px; display: block; }
+  .cup .cup-name { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+  .cup.poured { background: rgba(107,30,46,0.06); border-color: var(--wine); }
+  .cup.poured .cup-name { color: var(--wine); }
+
+  /* ── CLOSE / FOOTER ── */
+  #close {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 72px 28px 100px;
+    text-align: center;
+  }
+
+  .close-ornament { font-size: 44px; margin-bottom: 24px; display: block; }
+
+  .close-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--deep-wine);
+    margin-bottom: 12px;
+  }
+
+  .close-hebrew {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .close-body {
+    max-width: 520px;
+    margin: 0 auto 40px;
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+  .afikomen-box {
+    background: var(--deep-wine);
+    color: var(--cream);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 32px 0;
+    text-align: left;
+  }
+
+  .afikomen-box .af-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--gold-light);
+    margin-bottom: 12px;
+  }
+
+  .afikomen-box p { color: rgba(247,240,227,0.85); font-size: 15px; margin-bottom: 0; }
+
+  .next-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--deep-wine);
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--divider);
+  }
+
+  /* ── DIVIDER ── */
+  .ornament-divider {
+    text-align: center;
+    color: var(--gold);
+    opacity: 0.5;
+    font-size: 18px;
+    letter-spacing: 10px;
+    margin: 8px 0;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.5; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.15); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 480px) {
+    .plague-grid { grid-template-columns: 1fr; }
+    .plate-grid { grid-template-columns: 1fr; }
+    .nav-item { padding: 14px 10px; font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<section id="cover">
+  <div class="cover-ornament">✡</div>
+  <div class="cover-year">Passover · 5786 · 2026</div>
+  <h1 class="cover-title">The Seder</h1>
+  <p class="cover-subtitle">The Passover Haggadah</p>
+  <p class="cover-tagline">You are here. That's the whole point.<br>Let's make it good.</p>
+  <div class="cover-dedication">
+    <p>This year, especially, for</p>
+    <h3>Sarah &amp; Paige</h3>
+  </div>
+  <div class="scroll-cue" onclick="document.getElementById('nav').scrollIntoView({behavior:'smooth'})">
+    <span>Begin</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="nav-item" href="#intro">Intro</a>
+    <a class="nav-item" href="#candles">Candles</a>
+    <a class="nav-item" href="#plate">Plate</a>
+    <a class="nav-item" href="#kadesh">Kadesh</a>
+    <a class="nav-item" href="#karpas">Karpas</a>
+    <a class="nav-item" href="#yachatz">Yachatz</a>
+    <a class="nav-item" href="#questions">4 Questions</a>
+    <a class="nav-item" href="#maggid">Maggid</a>
+    <a class="nav-item" href="#plagues">Plagues</a>
+    <a class="nav-item" href="#dayenu">Dayenu</a>
+    <a class="nav-item" href="#wine2">2nd Cup</a>
+    <a class="nav-item" href="#meal">Meal</a>
+    <a class="nav-item" href="#sendoff">Sarah &amp; Paige</a>
+    <a class="nav-item" href="#close">Fin.</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ INTRO ═══════════════ -->
+<section class="section fade-in" id="intro">
+  <div class="section-label">Year Seven</div>
+  <h2 class="section-title">…in the beginning</h2>
+  <div class="section-subtitle">Again. We're doing this again.</div>
+
+  <p>Seven years ago, I decided that no existing Haggadah was doing the job. Maxwell House wasn't cutting it. So I started writing one. And somehow, you're here, reading it again.</p>
+
+  <p>Each year I've tried to make this Seder a little more ours — less about reciting, more about actually being here together. And this year, well. This year is different.</p>
+
+  <p>At this table tonight are two people who have sat here since they were small. They've watched Pop-Pop make his sandwich. They've sung Dayenu badly and enthusiastically. They've been the youngest, they've asked the Four Questions, they've found (and ransomed back) the Afikomen. And this fall, they're leaving. Not forever — but the table will be different next year, and we all know it.</p>
+
+  <p>So this one's for them. For Sarah and Paige. And for the rest of us who get to send them off properly.</p>
+
+  <p>This is Passover. We've been doing this for thousands of years. Relax, recline, and let's get on with it.</p>
+</section>
+
+<!-- ═══════════════ ORDER ═══════════════ -->
+<section class="section fade-in" id="order">
+  <div class="section-label">The Order</div>
+  <h2 class="section-title">Seder means Order.</h2>
+
+  <p>For thousands of years, Jewish families have gathered on the first or second night of Passover to conduct an orderly meal. <em>Seder</em>, in Hebrew, literally means "order." Which is funny, because Seder meals are famously chaotic.</p>
+
+  <p>But there is a shape to the evening. We tell the story of Exodus — the liberation of a people from slavery, the journey into the unknown, the arrival somewhere better. Tonight we follow that same framework. We should all take a moment to think about how the story of leaving, wandering, and arriving keeps showing up in our own lives.</p>
+
+  <div class="callout">
+    "In every generation, each person is obligated to see themselves as if they personally left Egypt." — The Haggadah
+  </div>
+
+  <p>This is also fun. It's supposed to be. Don't take notes.</p>
+</section>
+
+<!-- ═══════════════ CANDLES ═══════════════ -->
+<section class="section fade-in" id="candles">
+  <div class="section-label">Before We Begin</div>
+  <h2 class="section-title">Lighting the Candles</h2>
+
+  <p>Our holiday begins before sundown with the lighting of candles and two short blessings. Someone at the table, please do the honors.</p>
+
+  <div class="blessing">
+    <div class="hebrew">בָּרוּךְ אַתָּה אֲ-דֹנָי אֱ-לֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו, וְצִוָּנוּ לְהַדְלִיק נֵר שֶׁל יוֹם טוֹב</div>
+    <div class="transliteration">Baruch Atah Adonai, Eloheinu Melech ha-olam, asher kidishanu b'mitzvohtov, vitzivanu la-had-lek ner shel yom tov.</div>
+    <div class="translation">Blessed are You, our God, who has sanctified us by giving us Your commandments and granting us the privilege of kindling these holiday candles.</div>
+  </div>
+
+  <div class="blessing">
+    <div class="hebrew">בָּרוּךְ אַתָּה אֲ-דֹנָי אֱ-לֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁהֶחֱיָנוּ וְקִיְּמָנוּ וְהִגִּיעָנוּ לִזְמַן הַזֶּה</div>
+    <div class="transliteration">Baruch Atah Adonai, Eloheinu Melech ha-olam, she-heh-che-yanu, v'ki-y'manu, v'higi-anu lazman hazeh.</div>
+    <div class="translation">Blessed are You, who has granted us life, sustained us, and enabled us to reach this occasion.</div>
+  </div>
+
+  <div class="callout action">
+    <span class="action-icon">🕯️</span>
+    Light the candles. Take a breath. You made it here. That's already something.
+  </div>
+</section>
+
+<!-- ═══════════════ SEDER PLATE ═══════════════ -->
+<section class="section fade-in" id="plate">
+  <div class="section-label">On the Table</div>
+  <h2 class="section-title">The Seder Plate</h2>
+
+  <p>In front of you (or nearby, somewhere) is a plate with some things on it that look like they wandered in from a different meal. They're intentional. Each one means something.</p>
+
+  <div class="plate-grid">
+    <div class="plate-item">
+      <span class="pi-emoji">🫓</span>
+      <div class="pi-name">Matzah</div>
+      <div class="pi-desc">The bread of haste. No time to let it rise when you're fleeing slavery.</div>
+    </div>
+    <div class="plate-item">
+      <span class="pi-emoji">🌿</span>
+      <div class="pi-name">Bitter Herbs (Maror)</div>
+      <div class="pi-desc">Horseradish. Reminds us of the bitterness of slavery. Also your sinuses.</div>
+    </div>
+    <div class="plate-item">
+      <span class="pi-emoji">🍎</span>
+      <div class="pi-name">Charoset</div>
+      <div class="pi-desc">Apples, nuts, wine. Represents the mortar the slaves used. Tastes significantly better.</div>
+    </div>
+    <div class="plate-item">
+      <span class="pi-emoji">🌱</span>
+      <div class="pi-name">Karpas</div>
+      <div class="pi-desc">Parsley or greens. Spring renewal. We dip it in salt water — tears of the past.</div>
+    </div>
+    <div class="plate-item">
+      <span class="pi-emoji">🦴</span>
+      <div class="pi-name">Shank Bone</div>
+      <div class="pi-desc">Represents the Passover lamb. Don't eat it. Just look at it.</div>
+    </div>
+    <div class="plate-item">
+      <span class="pi-emoji">🥚</span>
+      <div class="pi-name">Egg (Beitzah)</div>
+      <div class="pi-desc">Symbol of the cycle of life, mourning, and renewal. A lot going on for one egg.</div>
+    </div>
+    <div class="plate-item" style="grid-column: 1 / -1;">
+      <span class="pi-emoji">🍊</span>
+      <div class="pi-name">The Orange</div>
+      <div class="pi-desc">A newer tradition, and one we embrace at this table. The orange represents the welcome presence of all people at the Seder — anyone who has ever felt they didn't have a seat, they do here. Everyone belongs. Even something as random as an orange.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ KADESH ═══════════════ -->
+<section class="section fade-in" id="kadesh">
+  <div class="section-label">Step One · Kadesh</div>
+  <h2 class="section-title">Fill the First Cup</h2>
+
+  <p>Wine gladdens the heart. We will drink four cups tonight — twice before the meal, twice after. Each cup corresponds to one of four promises of liberation in the Torah. Or, more practically: it keeps things moving.</p>
+
+  <p>Pour your first cup. We drink while reclining — because in ancient times, only free people got to lean back and relax. You're free. Lean.</p>
+
+  <div class="blessing">
+    <div class="hebrew">בָּרוּךְ אַתָּה יְ‑יָ אֱ‑לֹהֵינוּ מֶלֶךְ הָעוֹלָם בּוֹרֵא פְּרִי הַגָּפֶן</div>
+    <div class="transliteration">Baruch atah Adonai, Eloheinu Melech Ha'Olam borei pri hagafen.</div>
+    <div class="translation">Blessed are You, who creates the fruit of the vine.</div>
+  </div>
+
+  <div class="cup-tracker" id="cups">
+    <div class="cup" id="cup1" onclick="pourCup(1)">
+      <span class="cup-num">🍷</span>
+      <span class="cup-name">1st Cup<br>Freedom</span>
+    </div>
+    <div class="cup" id="cup2" onclick="pourCup(2)">
+      <span class="cup-num">🍷</span>
+      <span class="cup-name">2nd Cup<br>Deliverance</span>
+    </div>
+    <div class="cup" id="cup3" onclick="pourCup(3)">
+      <span class="cup-num">🍷</span>
+      <span class="cup-name">3rd Cup<br>Redemption</span>
+    </div>
+    <div class="cup" id="cup4" onclick="pourCup(4)">
+      <span class="cup-num">🍷</span>
+      <span class="cup-name">4th Cup<br>Promise</span>
+    </div>
+  </div>
+
+  <div class="callout action">
+    <span class="action-icon">🥂</span>
+    Drink the first cup. Savor it. (Tap the cup above when you've poured it.)
+  </div>
+</section>
+
+<!-- ═══════════════ KARPAS ═══════════════ -->
+<section class="section fade-in" id="karpas">
+  <div class="section-label">Step Two · Karpas</div>
+  <h2 class="section-title">Dip the Greens</h2>
+
+  <p>In ancient times, our people were farmers and shepherds. This is the festival of spring — a chance for renewal, a new beginning, a chance to be better than we were last year.</p>
+
+  <p>We dip parsley in salt water: the green of new growth, the salt of the tears our ancestors cried in slavery. Even in hardship, there is hope.</p>
+
+  <div class="blessing">
+    <div class="hebrew">בָּרוּךְ אַתָּה יי אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הָאֲדָמָה</div>
+    <div class="transliteration">Baruch Atah Adonai, Eloheinu Melech ha-olam, borei p'ri ha-adamah.</div>
+    <div class="translation">We praise You, who creates the fruit of the earth.</div>
+  </div>
+
+  <div class="callout action">
+    <span class="action-icon">🌿</span>
+    Dip the parsley in salt water. Eat it. Yes, the salt water is supposed to taste like tears. That's the point.
+  </div>
+</section>
+
+<!-- ═══════════════ YACHATZ ═══════════════ -->
+<section class="section fade-in" id="yachatz">
+  <div class="section-label">Step Three · Yachatz</div>
+  <h2 class="section-title">Break the Middle Matzah</h2>
+
+  <p>Three matzot sit on our table. We now break the middle one in half. We eat one half now and hide the other — the <em>Afikomen</em> — for later. Traditionally, the children find it and hold it for ransom before we can end the meal.</p>
+
+  <p>"Behold the Matzah — bread of poverty and affliction, which our ancestors ate in the land of Egypt. Let all who are hungry come and eat. Let all who are in need share in the hope of this Passover. Next year, may all people be free."</p>
+</section>
+
+<!-- ═══════════════ FOUR QUESTIONS ═══════════════ -->
+<section class="section fade-in" id="questions">
+  <div class="section-label">Step Four · Maggid</div>
+  <h2 class="section-title">The Four Questions</h2>
+  <div class="section-subtitle">Ma Nishtana — Why is this night different?</div>
+
+  <p>It is customary for the youngest at the table to ask — but tonight, anyone who wants to read is welcome to. Rebecca, Abby, anyone who wants a turn — step up. The more voices the better.</p>
+
+  <div class="question-card">
+    <div class="q-label">Question One</div>
+    <p class="q-text">On all other nights, we eat either bread or matzah. Why, on this night, do we eat only matzah?</p>
+    <span class="q-hebrew">She-be-chol ha-lay-lot anu ochlin chamaytz u-matzo, ha-laila ha-zeh kulo matzo</span>
+  </div>
+
+  <div class="question-card">
+    <div class="q-label">Question Two</div>
+    <p class="q-text">On all other nights, we eat all kinds of vegetables. Why, on this night, do we especially eat bitter herbs?</p>
+    <span class="q-hebrew">She-be-chol ha-lay-lot anu ochlin sh'or y'rokot, ha-laila ha-zeh maror</span>
+  </div>
+
+  <div class="question-card">
+    <div class="q-label">Question Three</div>
+    <p class="q-text">On all other nights, we don't dip our food at all. Why, on this night, do we dip twice?</p>
+    <span class="q-hebrew">She-be-chol ha-lay-lot ayn anu mat-beeleen afeelu pa-am e-chat, ha-laila ha-zeh shetay f'amim</span>
+  </div>
+
+  <div class="question-card">
+    <div class="q-label">Question Four</div>
+    <p class="q-text">On all other nights, we eat sitting upright. Why, on this night, do we recline?</p>
+    <span class="q-hebrew">She-be-chol ha-lay-lot anu ochlin bayn yoshvin u-vayn m'subin, ha-laila ha-zeh kulanu m'subin</span>
+  </div>
+
+  <p style="margin-top:28px;">Good questions. Let's answer them — starting with the story that explains it all.</p>
+</section>
+
+<!-- ═══════════════ MAGGID ═══════════════ -->
+<section class="section fade-in" id="maggid">
+  <div class="section-label">The Story</div>
+  <h2 class="section-title">The Maggid</h2>
+  <div class="section-subtitle">Read around the table. One paragraph each.</div>
+
+  <p>Each of us reads a paragraph aloud — in order, around the table. This is how we fulfill the commandment to tell our children the story of Exodus. Tap a passage to highlight your turn.</p>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">1</div>
+    <p>Why are we here tonight? We are here to celebrate the story of Exodus. We are here to remember that our freedom to celebrate tonight is the result of sacrifices of people who lived thousands of years ago. We share in this tradition because it was written: "You shall keep the Feast of Unleavened Bread, for on this very day I brought you out of bondage. You shall observe this day throughout the generations as a practice for all times."</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">2</div>
+    <p>The Torah commands us to tell our children about the Exodus from Egypt. "Haggadah," which means "telling," does just that — it tells the story of the Exodus. We aren't going to be here all night, but we will take the time to remember where we came from, and why it still matters.</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">3</div>
+    <p>There is a word in Hebrew — <em>Teshuvah</em> — that means return. It is an acknowledgement that there is always a chance for forgiveness, redemption, and change. Our traditions teach that Passover is open to all. Every generation gets to make the story their own.</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">4</div>
+    <p>The Torah says we are to speak these words: "My father was a wandering Aramean. He went down into Egypt and rested there. Though few in number, he became a great and populous nation. The Egyptians dealt harshly with us and afflicted us and imposed hard labor upon us. And we cried out to the Lord, who heard our cry and saw our affliction. He brought us out of Egypt with a mighty hand and with great signs and wonders."</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">5</div>
+    <p>Our patriarch Abraham and his wife Sarah went to the land of Canaan, where they became the founders of a great nation. God told Abraham: "Know this for certain — your descendants will be strangers in a strange land, and be enslaved and oppressed for four hundred years. But in the end, I shall bring judgment on the oppressors."</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">6</div>
+    <p>Abraham's grandson Jacob and his family went down to Egypt during a famine. In Egypt, Jacob and the Israelites lived and prospered — until a new Pharaoh arose and said: "Behold, the children of Israel are too many and too mighty for us. Let us deal shrewdly with them, lest they grow more powerful and join our enemies." The Egyptians set slavemasters over the Israelites, forced them to build cities and roads. But the more they were oppressed, the more the Israelites increased.</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">7</div>
+    <p>Pharaoh ordered: "Every Hebrew boy that is born shall be thrown in the Nile River and drowned." But God remembered the covenant made with Abraham and Sarah, and called to Moses — telling him to appear before Pharaoh and demand that the Hebrew people be released from bondage.</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">8</div>
+    <p>Nine times Moses and his brother Aaron went to Pharaoh. Nine times Pharaoh refused. Each time Pharaoh refused, God sent a plague to Egypt. After the ninth plague, Moses summoned the elders of Israel and told them to mark their door posts with the blood of a lamb — "God will pass through to smite the firstborn of the Egyptians, and when He sees the blood upon the lintel, God will pass over your doors."</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">9</div>
+    <p>When God brought down the tenth plague — the death of the firstborn of all the Egyptians — a great cry went up throughout Egypt, and Pharaoh freed the Israelites. They fled in such haste that their bread had no time to rise. For forty years, Moses led his people through the desert toward the Promised Land. They wandered. They doubted. They arrived.</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">10</div>
+    <p>It is written: "When your children shall say to you, 'What do you mean by this service?' you shall say: it is the sacrifice of God's Passover, who passed over the houses of the children of Israel in Egypt. It is because of this miracle — our freedom — that we gather, share a special meal, and celebrate the lives we lead."</p>
+  </div>
+
+  <div class="reader-block fade-in" onclick="this.classList.toggle('highlighted')">
+    <div class="reader-num">11</div>
+    <p>The story of Exodus is the story of all people who yearn to be free. Our people were once strangers in a strange land. We remember what it felt like not to be free, and that memory makes us responsible. None of us are truly free until all of us live in freedom.</p>
+  </div>
+
+  <div class="callout" style="margin-top:28px;">
+    The Four Children — the Wise, the Scornful, the Simple, and the one who doesn't know how to ask — are really just four moods we've all been in at various Seders. We don't judge.
+  </div>
+</section>
+
+<!-- ═══════════════ PLAGUES ═══════════════ -->
+<section class="section fade-in" id="plagues">
+  <div class="section-label">The Ten Plagues</div>
+  <h2 class="section-title">Refill your cup. Then diminish it.</h2>
+
+  <p>We now recite the Ten Plagues that God visited upon Egypt. With each plague, we dip a finger (or spoon) into our wine and let a drop fall — because our joy at being free cannot be complete while others suffered. Even our enemies' suffering diminishes our happiness.</p>
+
+  <p>Tap each plague as you recite it. Say it out loud. All together.</p>
+
+  <div class="plague-grid" id="plagueGrid">
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🩸</span> Blood</div><div class="plague-hebrew">דָּם — Dam</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🐸</span> Frogs</div><div class="plague-hebrew">צְפַרְדֵּעַ — Tzfardeya</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🦟</span> Lice</div><div class="plague-hebrew">כִּנִּים — Kinim</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🪰</span> Swarms</div><div class="plague-hebrew">עָרוֹב — Arov</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🐄</span> Pestilence</div><div class="plague-hebrew">דֶּבֶר — Dever</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🔴</span> Boils</div><div class="plague-hebrew">שְׁחִין — Sh'chin</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🌩️</span> Hail</div><div class="plague-hebrew">בָּרָד — Barad</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🦗</span> Locusts</div><div class="plague-hebrew">אַרְבֶּה — Arbeh</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">🌑</span> Darkness</div><div class="plague-hebrew">חֹשֶׁךְ — Choshech</div></div>
+    <div class="plague-item" onclick="markPlague(this)"><div class="plague-header"><span class="plague-emoji">💔</span> Death of Firstborn</div><div class="plague-hebrew">מַכַּת בְּכוֹרוֹת — Makat B'chorot</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ DAYENU ═══════════════ -->
+<section class="section fade-in" id="dayenu">
+  <div class="section-label">The Song</div>
+  <h2 class="section-title">Dayenu</h2>
+  <div class="section-subtitle">…it would have been enough</div>
+
+  <p>This song dates back to medieval times and has been sung at Passover tables around the world ever since. The idea is simple: at every stage of our liberation, God gave us more than we needed. Each gift alone would have been enough. Together, they're extraordinary.</p>
+
+  <p>We sing the chorus together — especially the chorus. Badly is fine. Loudly is better.</p>
+
+  <div class="dayenu-chorus">Da-da-ye-nu, Da-da-ye-nu, Da-da-ye-nu, Dayenu Dayenu! 🎵</div>
+
+  <div class="dayenu-lines">
+    <div class="dayenu-line">If God had brought us out of Egypt, but not parted the sea — <em>Dayenu!</em></div>
+    <div class="dayenu-line">If God had parted the sea, but not led us through on dry land — <em>Dayenu!</em></div>
+    <div class="dayenu-line">If God had led us through on dry land, but not fed us manna in the desert — <em>Dayenu!</em></div>
+    <div class="dayenu-line">If God had fed us manna, but not given us Shabbat — <em>Dayenu!</em></div>
+    <div class="dayenu-line">If God had given us Shabbat, but not brought us to Mount Sinai — <em>Dayenu!</em></div>
+    <div class="dayenu-line">If God had brought us to Mount Sinai, but not given us the Torah — <em>Dayenu!</em></div>
+    <div class="dayenu-line">If God had given us the Torah, but not brought us into the Promised Land — <em>Dayenu!</em></div>
+    <div class="dayenu-line">For all of it, together — <em>Dayenu. It is more than enough.</em></div>
+  </div>
+
+  <div class="dayenu-chorus" style="margin-top:0;">Da-da-ye-nu! 🎵</div>
+</section>
+
+<!-- ═══════════════ SECOND CUP ═══════════════ -->
+<section class="section fade-in" id="wine2">
+  <div class="section-label">Step Five · Hallel</div>
+  <h2 class="section-title">The Cup of Deliverance</h2>
+  <div class="section-subtitle">The Second Cup of Wine</div>
+
+  <p>We raise our cups a second time, recalling the second promise: "I will deliver you from their bondage." We've told the story. We've named the suffering. Now we celebrate the delivery.</p>
+
+  <div class="blessing">
+    <div class="hebrew">בָּרוּךְ אַתָּה יְ‑יָ אֱ‑לֹהֵינוּ מֶלֶךְ הָעוֹלָם בּוֹרֵא פְּרִי הַגָּפֶן</div>
+    <div class="transliteration">Baruch atah Adonai, Eloheinu Melech Ha'Olam borei pri hagafen.</div>
+    <div class="translation">Blessed are You, who creates the fruit of the vine.</div>
+  </div>
+
+  <div class="callout action">
+    <span class="action-icon">🍷</span>
+    Drink the second cup. Same sweetness. You've earned it.
+  </div>
+</section>
+
+<!-- ═══════════════ MEAL PREP ═══════════════ -->
+<section class="section fade-in" id="meal">
+  <div class="section-label">Almost There</div>
+  <h2 class="section-title">Motzi Matzah · Maror · The Hillel Sandwich</h2>
+
+  <p>Before the meal, three more quick steps:</p>
+
+  <p><strong>Motzi Matzah</strong> — We break bread (matzah). Two blessings, then eat.</p>
+
+  <div class="blessing">
+    <div class="transliteration">Baruch atah, Adonai Eloheinu, Melech haolam, haMotzi lechem min haaretz.</div>
+    <div class="translation">Blessed are You, who brings forth bread from the earth.</div>
+  </div>
+
+  <p><strong>Maror</strong> — Take a bit of bitter herb (horseradish) and dip it in the charoset. Life is bittersweet. No matter the darkness, we look forward to better days.</p>
+
+  <p><strong>The Hillel Sandwich</strong> — Over two thousand years ago, the rabbi Hillel combined everything for one final ceremonial snack: matzah + maror + charoset. Make a little sandwich. Eat it. No blessing — just dig in.</p>
+
+  <div class="callout action">
+    <span class="action-icon">🥗</span>
+    As Papa Bear would say, with something dangling from the corner of his mouth: <em>Shulchan Orekh.</em> The meal is served.
+  </div>
+</section>
+
+<!-- ═══════════════ SARAH & PAIGE ═══════════════ -->
+<section id="sendoff" class="fade-in">
+  <div class="inner">
+    <div class="section-label">This Year, In Particular</div>
+    <h2 class="section-title">Next Year, Wherever You Are</h2>
+    <div class="section-subtitle">For Sarah and Paige</div>
+
+    <div class="names-banner">
+      <div class="name-card">
+        <span class="grad-cap">🎓</span>
+        <div class="name">Sarah</div>
+      </div>
+      <div class="name-card">
+        <span class="grad-cap">🎓</span>
+        <div class="name">Paige</div>
+      </div>
+    </div>
+
+    <p>The whole Passover story is about leaving. It's about standing at the edge of something unknown, taking a breath, and going anyway. Moses didn't have a GPS. The Israelites didn't have a plan. They had each other, they had the memory of where they came from, and they trusted that the desert was worth crossing.</p>
+
+    <p>You two have grown up at this table. You've watched Papa Bear make his sandwich. You've sung Dayenu louder than necessary. You've found the Afikomen and driven a hard bargain for its return. You've been part of this for your whole lives.</p>
+
+    <p>And now you're leaving. Not the table — never fully the table — but for a while, the chairs will be empty and we'll feel it. The tradition we've been passing down, year after year, has been landing somewhere. It's been landing with you.</p>
+
+    <p>So before we go find the Afikomen: a question, posed to both of you. Take a moment. Answer it however you want — funny, sentimental, one word, a speech. There are no wrong answers. But we want to hear it.</p>
+
+    <div class="sendoff-question">
+      <div class="sq-prompt">A Question for Sarah &amp; Paige</div>
+      <p class="sq-text">"What is one thing from this table — a tradition, a memory, a food, a moment — that you're taking with you? What are you going to want to recreate someday, wherever you end up?"</p>
+    </div>
+
+    <p>We've been gathering at this Seder table your whole lives. For the last seven years, we've had our own Haggadah to follow — this one, growing and changing a little each year. We missed one, when the family was living in Central America. But we came back. We always come back. The story of Exodus, reread and reinterpreted every spring, has been running alongside your whole lives. You know by now: the point was never the destination. It was the table you kept coming back to.</p>
+
+    <p>We love you. Go be extraordinary. And come back hungry.</p>
+
+    <div style="border-top: 1px solid rgba(201,150,58,0.25); margin-top: 40px; padding-top: 32px;">
+      <p style="color: var(--gold-light); font-family: 'Playfair Display', serif; font-style: italic; font-size: 20px; margin-bottom: 0;">
+        "In every generation, each person must see themselves as if they personally left Egypt."<br>
+        <span style="font-size:14px; opacity:0.6; font-style:normal; font-family:'DM Sans',sans-serif; letter-spacing:1px;">— This applies to you now too.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CLOSE ═══════════════ -->
+<section id="close" class="fade-in">
+  <span class="close-ornament">✡</span>
+  <h2 class="close-title">Fin.</h2>
+  <p class="close-hebrew">L'chaim — To Life</p>
+
+  <p class="close-body">I've got nothing else. You did it. Your presence here humbles me every year, and this year more than most.</p>
+
+  <p class="close-body">I hope the meal was good. I hope the company was better.</p>
+
+  <div class="afikomen-box">
+    <div class="af-title">🫓 The Afikomen</div>
+    <p>Somewhere in this house is a hidden piece of matzah. Kids — go find it. When you do, we'll negotiate a price for its return. When it comes back to the table, everyone gets a small piece. That's how the meal officially ends, and dessert officially begins.</p>
+  </div>
+
+  <p class="close-body" style="margin-top:32px;">In religious homes, the service continues — more songs, Elijah the prophet, two more cups of wine, and "Next Year in Jerusalem." We'll end here. But not before one thing.</p>
+
+  <p class="next-year">Next year, wherever you are —<br>we hope the table finds you. 🍷</p>
+</section>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Active nav highlight
+  const navItems = document.querySelectorAll('.nav-item');
+  const sections = document.querySelectorAll('[id]');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const active = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if (active) {
+          active.classList.add('active');
+          active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => navObserver.observe(s));
+
+  // Cup tracker
+  function pourCup(n) {
+    const cup = document.getElementById('cup' + n);
+    cup.classList.toggle('poured');
+    cup.querySelector('.cup-num').textContent = cup.classList.contains('poured') ? '🥂' : '🍷';
+  }
+
+  // Plague tracker
+  function markPlague(el) {
+    el.classList.toggle('done');
+  }
+</script>
+</body>
+</html>
